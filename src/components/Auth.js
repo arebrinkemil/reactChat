@@ -18,8 +18,10 @@ export const Auth = (props) => {
 
   return (
     <div className="auth">
-      <p> Sign in with google to continue</p>
-      <button onClick={signInWithGoogle}> Sign in with google</button>
+      <button onClick={signInWithGoogle}>
+        {" "}
+        SIGN IN WITH GOOGLE TO CONTINUE
+      </button>
     </div>
   );
 };

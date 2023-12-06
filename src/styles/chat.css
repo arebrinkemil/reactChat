@@ -1,20 +1,72 @@
+@font-face {
+  font-family: "vt323";
+  src: url("../../public/fonts/VT323-Regular.ttf") format("truetype");
+}
+
+* {
+  font-family: "vt323";
+}
+
 #root {
-  width: 80%;
+  width: 80vw;
+  margin-top: 10vh;
+  margin-bottom: 20vh;
+  height: 100%;
 }
 
-.chat-message {
-  max-width: 200px;
-}
-
-.new-message-form {
+.chat-app {
   display: flex;
-  justify-content: center;
   flex-direction: column;
+  height: 100%;
+  align-items: center;
 }
 
 .messages {
   display: flex;
   flex-direction: column;
+  width: 60vw;
+}
+
+.chat-message {
+  border-style: solid;
+  max-width: 200px;
+  margin: 0 10px;
+}
+
+.new-message-form {
+  position: sticky;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  bottom: 0;
+  background-color: #26242e;
+}
+
+.new-message-input {
+  all: unset;
+  font-size: 4rem;
+  flex: 8;
+}
+
+.send-button {
+  all: unset;
+  font-size: 4rem;
+  flex: 1;
+  text-align: center;
+  cursor: pointer;
+}
+
+.image-input {
+  all: unset;
+  flex: 1;
+}
+
+.image-input-label {
+  font-size: 3rem;
+  cursor: pointer;
+  flex: 1;
+  margin: 0;
+  text-align: center;
 }
 
 .my-message {
@@ -29,10 +81,12 @@
 }
 
 .message {
+  font-family: "vt323";
   font-size: 1.5rem;
 }
 .user {
   font-weight: bold;
   font-size: 1.5rem;
   padding: 0 1rem;
+  text-wrap: nowrap;
 }

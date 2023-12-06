@@ -49,6 +49,13 @@ export const Chat = (props) => {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit(e);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -87,8 +94,8 @@ export const Chat = (props) => {
           >
             <span className="user">
               {message.user === auth.currentUser.displayName
-                ? "You"
-                : message.user}
+                ? "YOU >"
+                : "< " + message.user.toUpperCase()}
             </span>
             {message.text}
             {message.image && (
@@ -98,15 +105,26 @@ export const Chat = (props) => {
         ))}
       </div>
       <form onSubmit={handleSubmit} className="new-message-form">
-        <input type="file" onChange={handleImageChange} accept="image/*" />
         <input
           className="new-message-input"
           placeholder="Type your message here"
           onChange={(e) => setNewMessage(e.target.value)}
+          onKeyPress={handleKeyPress}
           value={newMessage}
         />
+        <label htmlFor="image-input" className="image-input-label">
+          +
+        </label>
+        <input
+          id="image-input"
+          className="image-input"
+          type="file"
+          onChange={handleImageChange}
+          accept="image/*"
+          style={{ display: "none" }} // Hide the actual file input
+        />
         <button type="submit" className="send-button">
-          Send
+          &gt;
         </button>
       </form>
     </div>

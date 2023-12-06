@@ -20,6 +20,13 @@ function App() {
     setRoom(null);
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      setRoom(roomInputRef.current.value);
+    }
+  };
+
   if (!isAuth) {
     return (
       <div>
@@ -34,10 +41,15 @@ function App() {
         <Chat room={room} />
       ) : (
         <div className="room">
-          <label>Enter Room Name</label>
-          <input ref={roomInputRef} />
+          <label>ENTER ROOM: </label>
+          <input
+            placeholder="NAME HERE"
+            className="room-number"
+            ref={roomInputRef}
+            onKeyPress={handleKeyPress}
+          />
           <button onClick={() => setRoom(roomInputRef.current.value)}>
-            Enter Chat
+            &gt;
           </button>
         </div>
       )}
