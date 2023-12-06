@@ -1,0 +1,38 @@
+#root {
+  width: 80%;
+}
+
+.chat-message {
+  max-width: 200px;
+}
+
+.new-message-form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+}
+
+.my-message {
+  align-self: flex-start;
+  display: flex;
+  flex-direction: row;
+}
+.other-message {
+  align-self: flex-end;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.message {
+  font-size: 1.5rem;
+}
+.user {
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding: 0 1rem;
+}

@@ -9,22 +9,23 @@ import {
   orderBy,
 } from "firebase/firestore";
 import { auth, db } from "../firebase-config";
-// import "..styles/chat.css";
+import "../styles/chat.css";
 
 export const Chat = (props) => {
   const { room } = props;
   const [newMessage, setNewMessage] = useState("");
+  const [image, setImage] = useState("");
   const [messages, setMessages] = useState([]);
 
   const messagesRef = collection(db, "messages");
 
   useEffect(() => {
-    const qureyMessages = query(
+    const queryMessages = query(
       messagesRef,
       where("room", "==", room),
       orderBy("createdAt")
     );
-    const unsubscribe = onSnapshot(qureyMessages, (snapshot) => {
+    const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
       let messages = [];
       snapshot.forEach((doc) => {
         messages.push({ ...doc.data(), id: doc.id });
@@ -33,36 +34,71 @@ export const Chat = (props) => {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [room]);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (newMessage === "") return;
 
-    await addDoc(messagesRef, {
-      text: newMessage,
+    let messageContent = {
       createdAt: serverTimestamp(),
       user: auth.currentUser.displayName,
       room: room,
-    });
+    };
 
-    setNewMessage("");
+    if (newMessage !== "") {
+      messageContent.text = newMessage;
+    }
+
+    if (image !== "") {
+      messageContent.image = image;
+    }
+
+    if (newMessage !== "" || image !== "") {
+      await addDoc(messagesRef, messageContent);
+      setNewMessage("");
+      setImage("");
+    }
   };
+
   return (
     <div className="chat-app">
-      <div className="header">
-        <h1> Welcome to: {room.toUpperCase()}</h1>
-      </div>
       <div className="messages">
-        {" "}
         {messages.map((message) => (
-          <div className="message" key={message.id}>
-            <span className="user">{message.user}</span>
+          <div
+            className={`message ${
+              message.user === auth.currentUser.displayName
+                ? "my-message"
+                : "other-message"
+            }`}
+            key={message.id}
+          >
+            <span className="user">
+              {message.user === auth.currentUser.displayName
+                ? "You"
+                : message.user}
+            </span>
             {message.text}
+            {message.image && (
+              <img className="chat-message" src={message.image} alt="Chat" />
+            )}
           </div>
         ))}
       </div>
       <form onSubmit={handleSubmit} className="new-message-form">
+        <input type="file" onChange={handleImageChange} accept="image/*" />
         <input
           className="new-message-input"
           placeholder="Type your message here"
