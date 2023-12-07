@@ -12,7 +12,7 @@ import { auth, db } from "../firebase-config";
 import "../styles/chat.css";
 
 export const Chat = (props) => {
-  const { room } = props;
+  const { room, backToEnterRoom } = props;
   const [newMessage, setNewMessage] = useState("");
   const [image, setImage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -127,6 +127,9 @@ export const Chat = (props) => {
           &gt;
         </button>
       </form>
+      <button className="back-button" onClick={backToEnterRoom}>
+        BACK
+      </button>
     </div>
   );
 };
